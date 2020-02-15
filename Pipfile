@@ -12,6 +12,7 @@ sqlalchemy = "*"
 pandas = "*"
 datetime = "*"
 black = "*"
+flask = "*"
 
 [requires]
 python_version = "3.8"
