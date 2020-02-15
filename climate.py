@@ -98,5 +98,28 @@ def start_date(startdate):
     return jsonify(min_avg_max_dict)
 
 
+@app.route("/api/v1.0/<startdate>/<enddate>")
+# return a json list of the min temp, avg temp, max temp for dates between the start and end date inclusive
+def start_end_date(startdate, enddate):
+    min_avg_max = (
+        session.query(
+            func.min(Measurement.tobs),
+            func.avg(Measurement.tobs),
+            func.max(Measurement.tobs),
+        )
+        .filter(Measurement.date >= startdate)
+        .filter(Measurement.date <= enddate)
+        .all()
+    )
+    min_avg_max_dict = {
+        "date_range": f"{startdate} - {enddate}",
+        "tmin": min_avg_max[0][0],
+        "tavg": min_avg_max[0][1],
+        "tmax": min_avg_max[0][2],
+    }
+    Session.close(session)
+    return jsonify(min_avg_max_dict)
+
+
 if __name__ == "__main__":
     app.run(debug=True)
