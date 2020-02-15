@@ -2,6 +2,7 @@ import datetime as dt
 import pandas as pd
 import numpy as np
 import sqlalchemy
+import black
 from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
 from sqlalchemy import create_engine, func
@@ -77,7 +78,7 @@ def tobs():
 
 
 @app.route("/api/v1.0/<startdate>")
-# return a json list of the min temp, avg temp, max temp for all dates greater than and equal to the start date
+# return a json list of the min, avg, max temps for all dates greater than and equal to the start date
 def start_date(startdate):
     min_avg_max = (
         session.query(
@@ -99,7 +100,7 @@ def start_date(startdate):
 
 
 @app.route("/api/v1.0/<startdate>/<enddate>")
-# return a json list of the min temp, avg temp, max temp for dates between the start and end date inclusive
+# return a json list of the min, avg, max temps for dates between the start and end date inclusive
 def start_end_date(startdate, enddate):
     min_avg_max = (
         session.query(
