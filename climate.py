@@ -76,5 +76,27 @@ def tobs():
     return jsonify(tobs_dict)
 
 
+@app.route("/api/v1.0/<startdate>")
+# return a json list of the min temp, avg temp, max temp for all dates greater than and equal to the start date
+def start_date(startdate):
+    min_avg_max = (
+        session.query(
+            func.min(Measurement.tobs),
+            func.avg(Measurement.tobs),
+            func.max(Measurement.tobs),
+        )
+        .filter(Measurement.date >= startdate)
+        .all()
+    )
+    min_avg_max_dict = {
+        "date": startdate,
+        "tmin": min_avg_max[0][0],
+        "tavg": min_avg_max[0][1],
+        "tmax": min_avg_max[0][2],
+    }
+    Session.close(session)
+    return jsonify(min_avg_max_dict)
+
+
 if __name__ == "__main__":
     app.run(debug=True)
