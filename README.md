@@ -1,1 +1,1 @@
-# sqlalchemy_hw
+# resources and solution files for hw
